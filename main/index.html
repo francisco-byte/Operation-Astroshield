@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Trabalho SW</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap">
+    <style>
+        
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Press Start 2P', sans-serif;
+        }
+
+        #menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 16px; 
+            cursor: pointer;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background-color: #03dac5;
+            transform: scale(1);
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 34px; 
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        #gameOverMessage {
+            display: none;
+            color: red;
+            font-size: 34px; 
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        #finalScore {
+            display: none;
+            color: white;
+            font-size: 22px; 
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        #btn-mute {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.5); /* Ajuste a transparência aqui */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .modal-content {
+            background-color: rgba(18, 18, 64, 0.9);
+            color: #fff;
+            padding: 20px;
+            border: 1px solid #121240;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            opacity: 1;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .modal input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #121240;
+            border-radius: 5px;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            background-color: #08081a;
+            color: #fff;
+        }
+
+        .modal-button {
+            margin-top: 10px;
+        }
+
+        .modal-button button {
+            background-color: #08081a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            border-radius: 5px;
+            outline: 2px solid #08081a;
+        }
+
+        .modal-button button:hover {
+            background-color: #08081a;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+.popup-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9998;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #121240;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    color: white;
+    width: calc(100% - 40px);
+    max-width: 800px;
+    max-height: 60vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Ocultar a barra de rolagem no Firefox */
+}
+
+.popup::-webkit-scrollbar {
+    display: none; /* Ocultar a barra de rolagem no Webkit (Chrome, Safari) */
+}
+
+.popup-header, .popup-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.header-item, .row-item {
+    flex: 1;
+    text-align: center;
+}
+
+.popup-content {
+    line-height: 1.5;
+}
+
+button {
+    margin: 20px auto 0;
+    display: block;
+    padding: 10px;
+    background-color: #4444ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5555ff;
+}
+
+.first-place {
+    color: gold;
+}
+
+.second-place {
+    color: silver;
+}
+
+.third-place {
+    color: #8B4513; /* Marrom */
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <h1 id="gameTitle">Operation Astroshield</h1>
+    <div id="gameOverMessage">Game Over</div>
+    <div id="finalScore"></div>
+    <div id="menu">
+        <button id="btn-mute">Mute</button>
+        <button id="btn-jogar">Jogar</button>
+        <button id="btn-como-jogar">Como Jogar</button>
+        <button id="btn-ver-leaderboards">Ver Leaderboards</button>
+    </div>
+
+    <canvas id="minhaTela" style="display: none;"></canvas>
+
+    <audio id="musicaJogo1" >
+        <source src="musica1.mp3" type="audio/wav" />
+    </audio>
+
+    <audio id="musicaJogo2" >
+        <source src="musica2.mp3" type="audio/wav" />
+    </audio>
+
+    <audio id="musicaJogo3" >
+        <source src="musica3.mp3" type="audio/wav" />
+    </audio>
+
+    <audio id="audioMorte" >
+        <source src="morte.mp3" type="audio/wav" />
+    </audio>
+
+    <audio id="audioDano" >
+        <source src="dano.mp3" type="audio/wav" />
+    </audio>
+
+    <audio id="audioTiro" >
+        <source src="laserShoot.wav" type="audio/wav" />
+    </audio>
+
+    <audio id="audioMorteInimigo" >
+        <source src="explosion.wav" type="audio/wav" />
+    </audio>
+
+    <audio id="musicaMenu" loop>
+        <source src="musicaMenu.mp3" type="audio/wav">
+    </audio>
+
+    <div id="usernameModal" class="modal">
+        <div class="modal-content">
+            <p>Insert name:</p>
+            <input type="text" id="usernameInput" placeholder="Username">
+            <p id="errorMessage" style="color: red; display: none;">Username inválido. Tente novamente.</p>
+            <div class="modal-button">
+                <button id="submitBtn">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="popup-background" id="comoJogarModalBackground">
+        <div class="popup" id="comoJogarModal">
+            <div class="popup-content"> 
+                <p><span style="color: #5a9bd5;">Controlos:</span></p>
+                <p>Usa as teclas <span style="color: gold;">A</span> e <span style="color: gold;">D</span> ou as <span style="color: gold;">setas</span> para mover a nave.</p>
+                <p>Pressiona a <span style="color: gold;">barra de espaço</span> para disparar.</p>
+                <p><span style="color: #5a9bd5;">Pontuação:</span></p>
+                <p>Ganhe 50 pontos por cada inimigo eliminado.</p>
+                <p>Perdes uma vida cada vez que um inimigo atingir o mundo, tenta não as perder a todas :P.</p>
+                <p>O objetivo é proteger o mundo e fazer o máximo de pontos.</p>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>

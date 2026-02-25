@@ -1,0 +1,4 @@
+Nome: Nogas, Pontuação: 99999
+Nome: Francisco, Pontuação: 9998
+Nome: Antônio, Pontuação: 0
+
